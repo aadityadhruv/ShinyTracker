@@ -10,9 +10,10 @@ import shutil
 import math
 import datetime
 import random
+import sys
 
 
-def processFrame(video, sec, thresh1=100, thresh2=600):
+def processFrame(video, sec, thresh1=100, thresh2=500):
     video.set(cv2.CAP_PROP_POS_MSEC,sec*1000) 
     hasFrames,image = video.read()
     is_good = False
@@ -33,16 +34,17 @@ def processFrame(video, sec, thresh1=100, thresh2=600):
     
     return is_good, image
 
-def saveFrame(frame, index, directory="test_images/", suffix="f"):
-    cv2.imwrite(directory + suffix + str(index) + ".png", frame)
+def saveFrame(frame, index, directory="images", suffix="f"):
+    cv2.imwrite(directory + "/" + suffix + str(index) + ".png", frame)
 
 
 
 def renameDirectory(directory ,suffix="f"):
+    print(directory)
     for count, filename in enumerate(os.listdir(directory)):
         dst =suffix + str(count) + ".png"
-        src =directory+ filename 
-        dst =directory+ dst 
+        src =directory+ "/" + filename 
+        dst =directory+ "/" + dst 
 
         # rename() function will 
         # rename all the files 
@@ -66,7 +68,7 @@ duration2 = frame_count2/fps2
 samples = 1000
 
 
-directory = "test_images/"
+directory = sys.argv[1]
 suffix = "video1"
 for frame in random.sample(range(500, np.int(duration) - 1000), samples):
     is_good, pFrame = processFrame(video, frame)
