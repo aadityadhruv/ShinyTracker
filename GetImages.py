@@ -51,35 +51,64 @@ def renameDirectory(directory ,suffix="f"):
         os.rename(src, dst) 
 
 
-videofile='werster_white_2_fast_2020.mp4'
-video =cv2.VideoCapture(videofile)
-videofile2='werster_white_2_cm_2020.mp4'
-video2 =cv2.VideoCapture(videofile2)
 
-frame_count = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
-frame_count2 = int(video2.get(cv2.CAP_PROP_FRAME_COUNT))
-
-fps = video.get(cv2.CAP_PROP_FPS)
-fps2 = video2.get(cv2.CAP_PROP_FPS)
-duration = frame_count/fps
-duration2 = frame_count2/fps2
-
+if len(sys.argv) < 3:
+    print("Please enter correct params: ", "directory, ", "src_video1, ", "src_video2...")
+    sys.exit()
 
 samples = 1000
 
 
 directory = sys.argv[1]
-suffix = "video1"
-for frame in random.sample(range(500, np.int(duration) - 1000), samples):
-    is_good, pFrame = processFrame(video, frame)
-    if is_good:
-        saveFrame(pFrame, frame, directory, suffix)
-suffix = "video2"
-for frame in random.sample(range(1000, np.int(duration2) - 1000), samples):
 
-    is_good, pFrame = processFrame(video2, frame)
-    if is_good:
-        saveFrame(pFrame, frame, directory, suffix)
+
+#videofile='werster_white_2_fast_2020.mp4'
+# video =cv2.VideoCapture(videofile)
+# videofile2='werster_white_2_cm_2020.mp4'
+# video2 =cv2.VideoCapture(videofile2)
+# frame_count2 = int(video2.get(cv2.CAP_PROP_FRAME_COUNT))
+# fps2 = video2.get(cv2.CAP_PROP_FPS)
+# duration2 = frame_count2/fps2
+
+
+
+video_list = []
+
+for i in range(2, len(sys.argv)):
+    video = cv2.VideoCapture(sys.argv[i])
+    frame_count = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = video.get(cv2.CAP_PROP_FPS)
+    duration = frame_count/fps
+    video_list.append((video, duration))
+
+
+
+i = 1
+for video, duration in video_list:
+    suffix = "video_" + str(i) + "_"
+    i += 1
+    for frame in random.sample(range(500, np.int(duration) - 1000), samples):
+        is_good, pFrame = processFrame(video, frame)
+        if is_good:
+            saveFrame(pFrame, frame, directory, suffix)
+
 
 
 renameDirectory(directory)
+
+
+
+
+
+
+# suffix = "video1"
+# for frame in random.sample(range(500, np.int(duration) - 1000), samples):
+#     is_good, pFrame = processFrame(video, frame)
+#     if is_good:
+#         saveFrame(pFrame, frame, directory, suffix)
+# suffix = "video2"
+# for frame in random.sample(range(1000, np.int(duration2) - 1000), samples):
+
+#     is_good, pFrame = processFrame(video2, frame)
+#     if is_good:
+#         saveFrame(pFrame, frame, directory, suffix)
