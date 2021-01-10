@@ -61,7 +61,9 @@ samples = 1000
 
 directory = sys.argv[1]
 
-
+if not os.path.isdir(directory):
+    path = os.path.join(os.getcwd(), directory) 
+    os.mkdir(path)
 #videofile='werster_white_2_fast_2020.mp4'
 # video =cv2.VideoCapture(videofile)
 # videofile2='werster_white_2_cm_2020.mp4'
@@ -69,7 +71,7 @@ directory = sys.argv[1]
 # frame_count2 = int(video2.get(cv2.CAP_PROP_FRAME_COUNT))
 # fps2 = video2.get(cv2.CAP_PROP_FPS)
 # duration2 = frame_count2/fps2
-
+sys.exit()
 
 
 video_list = []
