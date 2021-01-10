@@ -22,6 +22,9 @@ if len(sys.argv) > 2:
 
 
 for directory in src_list:
+	if not os.path.isdir(directory):
+		path = os.path.join(os.getcwd(), directory) 
+		os.mkdir(path)
 	for count, filename in enumerate(os.listdir(directory)):
 		image = cv2.imread(directory + "/" + filename)
 		print("working")
