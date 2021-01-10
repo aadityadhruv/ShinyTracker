@@ -23,8 +23,9 @@ if len(sys.argv) > 2:
 
 for directory in src_list:
 	for count, filename in enumerate(os.listdir(directory)):
-    	image = cv2.imread(directory + "/" + filename)
-    
-	    height, width = image.shape[:2]
-	    res = cv.resize(image,(int(0.5*width), int(0.5*height)))
-	    cv2.imwrite(dst_folder + "/" + filename, res)
+		image = cv2.imread(directory + "/" + filename)
+		print("working")
+		height, width = image.shape[:2]
+		res = cv.resize(image,(int(0.5*width), int(0.5*height)))
+		#cv2.imwrite(dst_folder + "/" + filename, res)
+    	
